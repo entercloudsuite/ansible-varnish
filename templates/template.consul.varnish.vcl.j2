@@ -17,7 +17,7 @@ probe {{ item.varnish_probe_check.probe_name }}
 }
 
 # Consul definition for backends
-{% raw %}{{range service "swarm_worker"}}
+{% raw %}{{range service {% endraw %}"{{ consul_backend_group }}" {% raw %}}}
 backend {{.Name}}_{{.ID}} {
     .host = "{{.Address}}";
 {% endraw %}
