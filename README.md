@@ -16,12 +16,75 @@ The role defines most of its variables in `defaults/main.yml`:
 
 ## Example Playbook
 
-Run with default vars:
+Example wit wordpress installation wit consul dinamic backend.
 
-    - hosts: all
-      roles:
-        - { role: ansible-varnish }
+```yaml
 
+- name: Get Facts all hosts
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo 
+  serial: 1
+  gather_facts: true
+  roles:
+    role: entercloudsuite.varnish
+    use_consul: true
+    consul_server_address: "myconsulserver.example.com:8500"
+    consul_backend_group: "MyWebserverGroupName"
+    varnish_application:
+      - name: myaplication
+        varnish_adm_port: 6081
+        varnish_port: "8081"
+        varnish_memory: "1g" 
+        varnish_probe_check:
+          probe_name: "probe"
+          probe_url: "/check.html" # page to check
+          probe_interval: "5s"
+          probe_timeout: "3s"
+          probe_window: "5"
+          probe_threshold: "3"
+        varnish_backend:
+          service_proxy_port: "80"
+        varnish_hosts_allow_purge: # who can purge cache
+          - "10.2.0.0/24"
+        varnish_url_cache:
+          - name: content
+            url: "www.example.com"
+            path: "/wp-content"
+            http_header: "cache - content"
+            cache_ttl: "86400"
+          - name: scripts
+            url: "www.example.com"
+            path: "/wp-includes"
+            http_header: "cache - scripts"
+            cache_ttl: "86400"
+          - name: all_pages
+            url: "www.example.com"
+            path: "/"
+            http_header: "cache - site"
+            cache_ttl: "3600"
+        varnish_cookie_not_cache:
+          - cookie: wordpress_logged_in
+        varnish_url_not_cache:
+          - name: login
+            url: "www.example.com"
+            path: "/wp-login"
+            http_header: "no cache - wp login"
+          - name: admin
+            url: "www.example.com"
+            path: "/wp-admin"
+            http_header: "no cache - wp admin"
+          - name: xmlrpc
+            url: "www.example.com"
+            path: "/xmlrpc"
+            http_header: "no cache - xmlrpc"
+          - name: sitemap
+            url: "www.example.com"
+            path: "/sitemap"
+            http_header: "no cache - sitemap"
+
+```
 ## Testing
 
 Tests are performed using [Molecule](http://molecule.readthedocs.org/en/latest/).
