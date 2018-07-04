@@ -104,6 +104,7 @@ sub vcl_recv {
 {% endfor %}
 {% endif %}
 
+{% if item.varnish_url_not_cache is defined %}
     # Don't cache path specified behind
 {% for object in item.varnish_url_not_cache %}
 {% if object.url is defined %}
@@ -116,6 +117,7 @@ sub vcl_recv {
     }
 {% endif %}
 {% endfor %}
+{% endif %}
 
     # Reset coockie for other objects
     unset req.http.Cookie;
@@ -149,6 +151,7 @@ sub vcl_backend_response {
 {% endfor %}
 {% endif %}
 
+{% if item.varnish_url_not_cache is defined %}
 {% for object in item.varnish_url_not_cache %}
 {% if object.url is defined %}
     if (bereq.http.host ~ "^{{ object.url }}" && bereq.url ~ "^{{ object.path }}") {
@@ -170,6 +173,7 @@ sub vcl_backend_response {
     }
 {% endif %}
 {% endfor %}
+{% endif %}
 
 {% if item.varnish_url_cache is defined %}
 {% for object in item.varnish_url_cache %}
