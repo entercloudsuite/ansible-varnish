@@ -5,6 +5,7 @@ use_consul: false
 
 varnish_application:
   - name: application1
+    varnish_version: 60
     varnish_adm_port: 6082
     varnish_port: "8080"
     varnish_memory: "128m" 
