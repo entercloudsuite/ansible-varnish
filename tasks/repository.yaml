@@ -2,7 +2,7 @@
 
 - name: Setup varnish repository key
   apt_key:
-    url: https://packagecloud.io/varnishcache/varnish5/gpgkey
+    url: https://packagecloud.io/varnishcache/varnish{{ varnish_version }}/gpgkey
     state: present
 
 - name: Setup varnish repository
@@ -11,7 +11,7 @@
     filename: "{{ item.file }}"
     state: present
   with_items:
-    - repo: "deb https://packagecloud.io/varnishcache/varnish5/ubuntu/ {{ ansible_distribution_release }} main"
+    - repo: "deb https://packagecloud.io/varnishcache/varnish{{ varnish_version }}/ubuntu/ {{ ansible_distribution_release }} main"
       file: "deb-varnish"
-    - repo: "deb-src https://packagecloud.io/varnishcache/varnish5/ubuntu/ {{ ansible_distribution_release }} main"
+    - repo: "deb-src https://packagecloud.io/varnishcache/varnish{{ varnish_version }}/ubuntu/ {{ ansible_distribution_release }} main"
       file: "deb-src-varnish"

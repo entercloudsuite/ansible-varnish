@@ -4,7 +4,7 @@ Ansible Role: Varnish 5.x
 [![Build Status](https://travis-ci.org/davepanarese/ansible-varnish.svg?branch=master)](https://travis-ci.org/davepanarese/ansible-varnish)
 [![Galaxy](https://img.shields.io/badge/galaxy-davepanarese.varnish-blue.svg?style=flat-square)](https://galaxy.ansible.com/davepanarese/varnish)  
 
-Install varnish 5.x on Ubuntu 16.04 (Xenial)
+Install varnish on Ubuntu 16.04 (Xenial)
 
 ## Requirements
 

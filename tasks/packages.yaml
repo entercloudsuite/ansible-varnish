@@ -1,6 +1,6 @@
 ---
 
-- name: Install varnish 5.x package
+- name: Install varnish package
   apt:
     name: varnish
     state: latest
