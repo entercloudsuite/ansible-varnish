@@ -125,12 +125,10 @@ sub vcl_recv {
 }
 
 sub vcl_hash {
-     
     # Example for caching differents object versions by device previously detected (when static content could also vary):   
     if (req.http.X-Forwarded-Proto) {
         hash_data(req.http.X-Forwarded-Proto);
     }
-
     # If the device has been classified as any sort of mobile device, include the User-Agent in the hash
     # However, do not do this for any static assets as our web application returns the same ones for every device.
     if (!(req.url ~ "\.(jpg|jpeg|gif|png|ico|css|zip|tgz|gz|rar|bz2|pdf|txt|tar|wav|bmp|rtf|flv|swf|mov|avi|mp3|mpg|woff|eot|ttf)(\?.*|)$")) {
