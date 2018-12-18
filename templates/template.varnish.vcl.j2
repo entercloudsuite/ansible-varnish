@@ -140,7 +140,7 @@ sub vcl_backend_response {
     set beresp.grace = 60m;
 
     # Cache error pages for a short time
-    if (beresp.status == 404 || beresp.status >= 500) {
+    if (beresp.status == 404 || beresp.status >= 500 || beresp.status == 301 || beresp.status == 302) {
         set beresp.http.X-Cache-Rule = "Cache for 2s - Content error: " + beresp.status;
         set beresp.ttl = 2s;
         return (deliver);
